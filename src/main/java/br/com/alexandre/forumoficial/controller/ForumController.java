@@ -1,20 +1,31 @@
 package br.com.alexandre.forumoficial.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alexandre.forumoficial.dto.TopicoDto;
-import br.com.alura.forum.repository.TopicoRepository;
+import br.com.alexandre.forumoficial.modelo.Topico;
+import br.com.alexandre.forumoficial.repository.TopicoRepository;
 
-@Controller
-@RequestMapping(name = "/topicos")
+@RestController
+@RequestMapping("/topicos")
 public class ForumController {
 	
 	@Autowired
 	private TopicoRepository topicoRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<TopicoDto>> listar(){
+		List<Topico> topicos = topicoRepository.findAll();
+		List<TopicoDto> topicosDto = TopicoDto.convertDto(topicos);
+		
+		return ResponseEntity.ok(topicosDto);
+	}
 	
 
 }

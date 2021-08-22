@@ -1,4 +1,4 @@
-package br.com.alura.forum.modelo;
+package br.com.alexandre.forumoficial.modelo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,24 +16,28 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Topico {
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private String mensagem;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
-	
+
 	@Enumerated(EnumType.STRING)
 	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
-	
+
 	@ManyToOne
 	private Usuario autor;
-	
+
 	@ManyToOne
 	private Curso curso;
-	
+
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Resposta> respostas = new ArrayList<>();
+
+	public Topico() {
+	}
 
 	public Topico(String titulo, String mensagem, Curso curso) {
 		this.titulo = titulo;

@@ -1,4 +1,4 @@
-package br.com.alura.forum.modelo;
+package br.com.alexandre.forumoficial.modelo;
 
 import java.time.LocalDateTime;
 
@@ -12,20 +12,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Resposta {
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private Topico topico;
-	
+
 	private LocalDateTime dataCriacao = LocalDateTime.now();
-	
+
 	@ManyToOne
 	private Usuario autor;
 	private Boolean solucao = false;
+
+	public Resposta() {
+	}
 
 	@Override
 	public int hashCode() {

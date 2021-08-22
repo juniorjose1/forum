@@ -1,10 +1,11 @@
 package br.com.alexandre.forumoficial.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import br.com.alura.forum.modelo.Curso;
-import br.com.alura.forum.modelo.StatusTopico;
-import br.com.alura.forum.modelo.Usuario;
+import br.com.alexandre.forumoficial.modelo.StatusTopico;
+import br.com.alexandre.forumoficial.modelo.Topico;
 
 public class TopicoDto {
 
@@ -12,17 +13,16 @@ public class TopicoDto {
 	private String mensagem;
 	private LocalDateTime dataCriacao;
 	private StatusTopico status;
-	private Usuario autor;
-	private Curso curso;
+	private String nomeAutor;
+	private String nomeCurso;
 
-	public TopicoDto(String titulo, String mensagem, LocalDateTime dataCriacao, StatusTopico status, Usuario autor,
-			Curso curso) {
-		this.titulo = titulo;
-		this.mensagem = mensagem;
-		this.dataCriacao = dataCriacao;
-		this.status = status;
-		this.autor = autor;
-		this.curso = curso;
+	public TopicoDto(Topico topico) {
+		this.titulo = topico.getTitulo();
+		this.mensagem = topico.getMensagem();
+		this.dataCriacao = topico.getDataCriacao();
+		this.status = topico.getStatus();
+		this.nomeAutor = topico.getAutor().getNome();
+		this.nomeCurso = topico.getCurso().getNome();
 	}
 
 	public String getTitulo() {
@@ -57,20 +57,26 @@ public class TopicoDto {
 		this.status = status;
 	}
 
-	public Usuario getAutor() {
-		return autor;
+	public String getNomeAutor() {
+		return nomeAutor;
 	}
 
-	public void setAutor(Usuario autor) {
-		this.autor = autor;
+	public void setNomeAutor(String nomeAutor) {
+		this.nomeAutor = nomeAutor;
 	}
 
-	public Curso getCurso() {
-		return curso;
+	public String getNomeCurso() {
+		return nomeCurso;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public void setNomeCurso(String nomeCurso) {
+		this.nomeCurso = nomeCurso;
 	}
+
+	public static List<TopicoDto> convertDto(List<Topico> topicos) {
+		return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
+	}
+
+	
 
 }
