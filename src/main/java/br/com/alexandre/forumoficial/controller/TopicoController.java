@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alexandre.forumoficial.dto.TopicoDetalhadoDto;
 import br.com.alexandre.forumoficial.dto.TopicoDto;
+import br.com.alexandre.forumoficial.exception.ResourceNotFoundException;
 import br.com.alexandre.forumoficial.modelo.Topico;
 import br.com.alexandre.forumoficial.repository.TopicoRepository;
 
@@ -24,14 +25,18 @@ public class TopicoController {
 	private TopicoRepository topicoRepository;
 	
 	@GetMapping
-	public ResponseEntity<Page<TopicoDto>> listar(Pageable pageResult){
-		
-		Page<Topico> topicos = topicoRepository.findAll(pageResult);
-		Page<TopicoDto> topicosDto = TopicoDto.convertDto(topicos);
-		
-		return ResponseEntity.ok(topicosDto);
+	public ResponseEntity<Page<TopicoDto>> listar(String nomeCurso, Pageable pageResult){
+		try {
+			if(nomeCurso == null) {
+				Page<Topico> topicos = topicoRepository.findAll(pageResult);
+				return ResponseEntity.ok(TopicoDto.convertDto(topicos));
+			}
+			Page<Topico> topicosCurso = topicoRepository.findByCursoNome(nomeCurso, pageResult);
+			return ResponseEntity.ok(TopicoDto.convertDto(topicosCurso));
+		} catch(ResourceNotFoundException ex) {
+			return ResponseEntity.notFound().build();
+		}
 	}
-	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<TopicoDetalhadoDto> detalhar(@PathVariable Long id){
@@ -42,5 +47,5 @@ public class TopicoController {
 		}
 		return ResponseEntity.notFound().build();
 	}
-
+	
 }

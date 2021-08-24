@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
 
+import br.com.alexandre.forumoficial.exception.ResourceNotFoundException;
 import br.com.alexandre.forumoficial.modelo.Topico;
 
 public class TopicoDto {
@@ -43,7 +44,10 @@ public class TopicoDto {
 	}
 
 	public static Page<TopicoDto> convertDto(Page<Topico> topicos) {
-		return topicos.map(TopicoDto::new);
+		if(!topicos.isEmpty()) {
+			return topicos.map(TopicoDto::new);
+		}
+		throw new ResourceNotFoundException("Recurso não encontrado");
 	}
 
 	
