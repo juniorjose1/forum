@@ -2,18 +2,17 @@ package br.com.alexandre.forumoficial.dto;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.domain.Page;
-
-import br.com.alexandre.forumoficial.exception.ResourceNotFoundException;
 import br.com.alexandre.forumoficial.modelo.Topico;
 
 public class TopicoDto {
-
+	
+	private Long id;
 	private String titulo;
 	private String mensagem;
 	private LocalDateTime dataCriacao;
 
 	public TopicoDto(Topico topico) {
+		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
 		this.mensagem = topico.getMensagem();
 		this.dataCriacao = topico.getDataCriacao();
@@ -43,13 +42,14 @@ public class TopicoDto {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public static Page<TopicoDto> convertDto(Page<Topico> topicos) {
-		if(!topicos.isEmpty()) {
-			return topicos.map(TopicoDto::new);
-		}
-		throw new ResourceNotFoundException("Recurso não encontrado");
+	public Long getId() {
+		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 
 }
