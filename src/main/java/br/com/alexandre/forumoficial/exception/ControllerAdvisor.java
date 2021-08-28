@@ -13,6 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -48,6 +49,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 			});
 		
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<?> authenticationException(BadCredentialsException ex){
+		Map<String, String> error = new HashMap<>();
+		error.put("Message:", "Login/Senha Inválidos !");
+		
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 }

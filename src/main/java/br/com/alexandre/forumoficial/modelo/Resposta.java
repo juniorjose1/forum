@@ -3,6 +3,7 @@ package br.com.alexandre.forumoficial.modelo;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,13 +19,13 @@ public class Resposta {
 	private Long id;
 	private String mensagem;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Topico topico;
 
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario autor;
 	private Boolean solucao = false;
 
