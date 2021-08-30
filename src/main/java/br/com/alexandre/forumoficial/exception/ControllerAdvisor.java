@@ -52,11 +52,11 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(BadCredentialsException.class)
-	public ResponseEntity<?> authenticationException(BadCredentialsException ex){
-		Map<String, String> error = new HashMap<>();
-		error.put("Message:", "Login/Senha Inválidos !");
+	public ResponseEntity<?> authenticationException(){
+		Map<String, String> body = new HashMap<>();
+		body.put("Message:", "Login/Senha Inválidos !");
 		
-		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
 
 }
