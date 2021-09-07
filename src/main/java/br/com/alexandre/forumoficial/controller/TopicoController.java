@@ -29,6 +29,9 @@ import br.com.alexandre.forumoficial.controller.form.TopicoAtualizadoForm;
 import br.com.alexandre.forumoficial.controller.form.TopicoForm;
 import br.com.alexandre.forumoficial.modelo.Topico;
 import br.com.alexandre.forumoficial.service.TopicoService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/topicos")
@@ -37,10 +40,18 @@ public class TopicoController {
 	@Autowired
 	private TopicoService topicoService;
 	
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+	            value = "Pagina a ser carregada", defaultValue = "0"),
+	    @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+	            value = "Quantidade de registros", defaultValue = "5"),
+	    @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+	            value = "Ordenacao dos registros(atributo,desc ou asc)")
+	})
 	@GetMapping
 	@Cacheable("listaTopicos")
 	public ResponseEntity<Page<TopicoDto>> findAll(String nomeCurso, 
-			@PageableDefault(page = 0, size = 10, sort = "titulo", direction = Direction.ASC) Pageable pageResult){
+			@PageableDefault(page = 0, size = 10, sort = "titulo", direction = Direction.ASC) @ApiIgnore Pageable pageResult){
 		Page<TopicoDto> topicos = topicoService.findAll(nomeCurso, pageResult);
 		return ResponseEntity.ok(topicos);
 	}
