@@ -1,4 +1,4 @@
-package br.com.alexandre.forumoficial.service;
+package br.com.alexandre.forumoficial.config.security;
 
 import java.util.Date;
 
@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.alexandre.forumoficial.modelo.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -30,6 +31,20 @@ public class TokenService {
 					.setExpiration(dataExpiracao)
 					.signWith(SignatureAlgorithm.HS256, secret)
 					.compact();
+	}
+
+	public Boolean isTokenValid(String token) {
+		try {
+			Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+			return true;
+		} catch(Exception ex) {
+			return false;
+		}
+	}
+
+	public Long getUserId(String token) {
+		Claims bodyToken = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		return Long.parseLong(bodyToken.getSubject());
 	}
 
 }

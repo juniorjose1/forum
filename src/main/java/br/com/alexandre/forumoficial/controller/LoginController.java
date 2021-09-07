@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alexandre.forumoficial.dto.TokenDto;
-import br.com.alexandre.forumoficial.form.LoginForm;
-import br.com.alexandre.forumoficial.service.TokenService;
+import br.com.alexandre.forumoficial.config.security.TokenService;
+import br.com.alexandre.forumoficial.controller.dto.TokenDto;
+import br.com.alexandre.forumoficial.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")

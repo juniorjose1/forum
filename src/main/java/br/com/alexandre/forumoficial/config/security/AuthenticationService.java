@@ -1,6 +1,8 @@
-package br.com.alexandre.forumoficial.service;
+package br.com.alexandre.forumoficial.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +24,11 @@ public class AuthenticationService implements UserDetailsService {
 			return usuario;
 		}
 		throw new UsernameNotFoundException("Dados Invalidos !");
+	}
+	
+	public static Usuario recuperarUsuarioAutenticado() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return (Usuario) auth.getPrincipal();
 	}
 
 }

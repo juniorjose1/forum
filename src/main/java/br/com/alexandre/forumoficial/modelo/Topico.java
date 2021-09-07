@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import br.com.alexandre.forumoficial.config.security.AuthenticationService;
+
 @Entity
 public class Topico {
 
@@ -43,6 +45,7 @@ public class Topico {
 		this.titulo = titulo;
 		this.mensagem = mensagem;
 		this.curso = curso;
+		this.autor = AuthenticationService.recuperarUsuarioAutenticado();
 	}
 
 	@Override

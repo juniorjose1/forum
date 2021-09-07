@@ -1,4 +1,4 @@
-package br.com.alexandre.forumoficial.dto;
+package br.com.alexandre.forumoficial.controller.dto;
 
 public class TokenDto {
 	

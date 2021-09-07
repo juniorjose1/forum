@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.alexandre.forumoficial.dto.TopicoDetalhadoDto;
-import br.com.alexandre.forumoficial.dto.TopicoDto;
+import br.com.alexandre.forumoficial.controller.dto.TopicoDetalhadoDto;
+import br.com.alexandre.forumoficial.controller.dto.TopicoDto;
+import br.com.alexandre.forumoficial.controller.form.TopicoAtualizadoForm;
+import br.com.alexandre.forumoficial.controller.form.TopicoForm;
 import br.com.alexandre.forumoficial.exception.ResourceNotFoundException;
 import br.com.alexandre.forumoficial.exception.TopicoNotFoundException;
-import br.com.alexandre.forumoficial.form.TopicoAtualizadoForm;
-import br.com.alexandre.forumoficial.form.TopicoForm;
 import br.com.alexandre.forumoficial.modelo.Curso;
 import br.com.alexandre.forumoficial.modelo.Topico;
 import br.com.alexandre.forumoficial.repository.TopicoRepository;

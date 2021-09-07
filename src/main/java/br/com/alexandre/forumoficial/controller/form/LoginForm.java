@@ -1,4 +1,4 @@
-package br.com.alexandre.forumoficial.form;
+package br.com.alexandre.forumoficial.controller.form;
 
 import javax.validation.constraints.NotEmpty;
 

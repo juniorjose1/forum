@@ -12,8 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.alexandre.forumoficial.service.AuthenticationService;
+import br.com.alexandre.forumoficial.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +22,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticationService authService;
+	
+	@Autowired
+	private UsuarioRepository userRepository;
+	
+	@Autowired
+	private TokenService tokenService;
 	
 	@Bean
 	@Override
@@ -38,16 +45,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
+			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.addFilterBefore(new AutenticacaoTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override//Arquivos estáticos css...js
 	public void configure(WebSecurity web) throws Exception {
-		// TODO Auto-generated method stub
-		super.configure(web);
+		web.ignoring()
+        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
 	
 }

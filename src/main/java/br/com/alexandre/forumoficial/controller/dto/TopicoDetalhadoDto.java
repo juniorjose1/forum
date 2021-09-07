@@ -1,9 +1,10 @@
-package br.com.alexandre.forumoficial.dto;
+package br.com.alexandre.forumoficial.controller.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import br.com.alexandre.forumoficial.modelo.Resposta;
 import br.com.alexandre.forumoficial.modelo.StatusTopico;
 import br.com.alexandre.forumoficial.modelo.Topico;
 
@@ -15,7 +16,7 @@ public class TopicoDetalhadoDto {
 	private StatusTopico status;
 	private String nomeAutor;
 	private String nomeCurso;
-	private List<Resposta> respostas;
+	private List<RespostaDto> respostas = new ArrayList<>();
 
 	public TopicoDetalhadoDto(Topico topico) {
 		this.titulo = topico.getTitulo();
@@ -24,7 +25,7 @@ public class TopicoDetalhadoDto {
 		this.status = topico.getStatus();
 		this.nomeAutor = topico.getAutor().getNome();
 		this.nomeCurso = topico.getCurso().getNome();
-		this.respostas = topico.getRespostas();
+		this.respostas.addAll(topico.getRespostas().stream().map(RespostaDto::new).collect(Collectors.toList()));
 	}
 
 	public String getTitulo() {
@@ -75,11 +76,11 @@ public class TopicoDetalhadoDto {
 		this.nomeCurso = nomeCurso;
 	}
 
-	public List<Resposta> getRespostas() {
+	public List<RespostaDto> getRespostas() {
 		return respostas;
 	}
 
-	public void setRespostas(List<Resposta> respostas) {
+	public void setRespostas(List<RespostaDto> respostas) {
 		this.respostas = respostas;
 	}
 

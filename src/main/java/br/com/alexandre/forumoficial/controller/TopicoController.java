@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.alexandre.forumoficial.dto.TopicoDetalhadoDto;
-import br.com.alexandre.forumoficial.dto.TopicoDto;
-import br.com.alexandre.forumoficial.form.TopicoAtualizadoForm;
-import br.com.alexandre.forumoficial.form.TopicoForm;
+import br.com.alexandre.forumoficial.controller.dto.TopicoDetalhadoDto;
+import br.com.alexandre.forumoficial.controller.dto.TopicoDto;
+import br.com.alexandre.forumoficial.controller.form.TopicoAtualizadoForm;
+import br.com.alexandre.forumoficial.controller.form.TopicoForm;
 import br.com.alexandre.forumoficial.modelo.Topico;
 import br.com.alexandre.forumoficial.service.TopicoService;
 
@@ -42,7 +42,6 @@ public class TopicoController {
 	public ResponseEntity<Page<TopicoDto>> findAll(String nomeCurso, 
 			@PageableDefault(page = 0, size = 10, sort = "titulo", direction = Direction.ASC) Pageable pageResult){
 		Page<TopicoDto> topicos = topicoService.findAll(nomeCurso, pageResult);
-		
 		return ResponseEntity.ok(topicos);
 	}
 	
@@ -57,12 +56,12 @@ public class TopicoController {
 	@PostMapping
 	@Transactional
 	@CacheEvict(value = {"listaTopicos"}, allEntries = true)
-	public ResponseEntity<TopicoDto> save(@Valid @RequestBody TopicoForm topicoForm, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<TopicoDetalhadoDto> save(@Valid @RequestBody TopicoForm topicoForm, UriComponentsBuilder uriBuilder){
 		Topico topico = topicoService.save(topicoForm);
 		
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(new TopicoDto(topico));
+		return ResponseEntity.created(uri).body(new TopicoDetalhadoDto(topico));
 	}
 	
 	@DeleteMapping("/{id}")
