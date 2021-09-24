@@ -11,7 +11,7 @@ import br.com.alexandre.forumoficial.repository.CursoRepository;
 public class CursoService {
 	
 	@Autowired
-	CursoRepository cursoRepository;
+	private CursoRepository cursoRepository;
 	
 	public Curso findByNome(String nomeCurso) {
 		Curso curso = cursoRepository.findByNome(nomeCurso);
